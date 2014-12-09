@@ -47,6 +47,8 @@ If you want to make a Mindmap frame with a save button (the height is 400pt), wr
     }}
 ```
 
+Visit [a demo page](http://www.teachothers.org/demo/index.php?mapjs-pukiwiki-plugin-demo).
+
 Licence
 -------
 * GNU GPL v3 (*.php files)
