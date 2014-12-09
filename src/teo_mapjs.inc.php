@@ -22,11 +22,13 @@
 
 /*
   Usage: 
-    #teo_mapjs(size){{
+    #teo_mapjs(height,save_flag){{
            (more than one empty line)
     }}
 
-    size: the size of the map (default: 400pt)
+    height: the size of the map
+    save_flag: yes  ... show save-button
+               no   ... not show save-button
  */
 
 
@@ -48,8 +50,8 @@ function plugin_teo_mapjs_convert(){
   $options = func_num_args() ? func_get_args() : array();
   $n_args = func_num_args();
   
-  if($n_args < 1){
-    return 'Error(teo_mapjs): Invalid option';
+  if($n_args != 3){
+    return 'Error(teo_mapjs): invalid options. #teo_mapjs(height,save_flag)';
   } else {
     // read from the tail of $options
     $contents = array_pop($options);
@@ -57,6 +59,15 @@ function plugin_teo_mapjs_convert(){
       $contents = START_MUP;
     }
     $contents = preg_replace("/[\r\n]/", "", $contents);
+    $contents = preg_replace('/\\\\/', "\\\\\\\\", $contents);
+    //    die_message($contents);
+    $save_flag = array_pop($options);
+    if($save_flag == 'yes'){
+      $html_save_button = '<input type="button" class="saveAsWiki" value="save"></input>';
+    } else {
+      $html_save_button = "";
+    }
+
     $map_height = array_pop($options);
     if(!$map_height){
       $map_height = DEFAULT_MAP_HEIGHT;
@@ -89,7 +100,7 @@ function plugin_teo_mapjs_convert(){
    <input type="button" class="cut" value="cut"></input>
    <input type="button" class="copy" value="copy"></input>
    <input type="button" class="paste" value="paste"></input>
-   <input type="button" class="saveAsWiki" value="save"></input>
+   $html_save_button
    <input type="button" class="openAttachment" value="open attachment"></input>
    <input type="button" class="toggleAddLinkMode" value="add link"></input>
     <div id="linkEditWidget">
@@ -167,7 +178,6 @@ function plugin_teo_mapjs_convert(){
       }, 500);
     function main(){
       var container = jQuery('#container'),
-      
       idea = MAPJS.content(JSON.parse('$contents'));
       imageInsertController = new MAPJS.ImageInsertController("http://localhost:4999?u="),
       mapModel = new MAPJS.MapModel(MAPJS.DOMRender.layoutCalculator, []);
