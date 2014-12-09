@@ -59,8 +59,9 @@ function plugin_teo_mapjs_convert(){
       $contents = START_MUP;
     }
     $contents = preg_replace("/[\r\n]/", "", $contents);
+    // escape backslash characters in the mup
     $contents = preg_replace('/\\\\/', "\\\\\\\\", $contents);
-    //    die_message($contents);
+
     $save_flag = array_pop($options);
     if($save_flag == 'yes'){
       $html_save_button = '<input type="button" class="saveAsWiki" value="save"></input>';
