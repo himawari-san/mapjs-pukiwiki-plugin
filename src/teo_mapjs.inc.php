@@ -165,19 +165,8 @@ function plugin_teo_mapjs_convert(){
 	  });
       });
   };
-  (function () {
-    var flag_css_loaded = 0;
-    window.onerror = alert;
-    $("#mapjs_css").load(function(){
-	flag_css_loaded = 1
-	  });
-    var timer = setInterval(function() {
-	if (flag_css_loaded == 1) {
-	  clearInterval(timer);
-	  main();
-	}
-      }, 500);
-    function main(){
+
+    function teo_mapjs_main(){
       var container = jQuery('#container'),
       idea = MAPJS.content(JSON.parse('$contents'));
       imageInsertController = new MAPJS.ImageInsertController("http://localhost:4999?u="),
@@ -215,6 +204,19 @@ function plugin_teo_mapjs_convert(){
 	}
       });
     }
+
+  (function () {
+    var flag_css_loaded = 0;
+    window.onerror = alert;
+    $("#mapjs_css").load(function(){
+	flag_css_loaded = 1
+	  });
+    var timer = setInterval(function() {
+	if (flag_css_loaded == 1) {
+	  clearInterval(timer);
+	  teo_mapjs_main();
+	}
+      }, 500);
   }());
   </script>
 EOD;
